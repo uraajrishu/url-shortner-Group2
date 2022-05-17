@@ -1,0 +1,22 @@
+{
+  "name": "url-shortner-project",
+  "version": "1.0.0",
+  "description": "Url_Shortner_Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uraajrishu/Url-shortner-project-Group2.git"
+  },
+  "keywords": [
+    "Uraj-Mehta"
+  ],
+  "author": "Uraj Mehta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uraajrishu/Url-shortner-project-Group2/issues"
+  },
+  "homepage": "https://github.com/uraajrishu/Url-shortner-project-Group2#readme"
+}
