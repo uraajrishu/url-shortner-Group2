@@ -9,4 +9,5 @@ router.get('/test-me', function (req, res) {
 
 
 router.post("/url/shorten", urlController.urlShorten)
+router.get("/code/:url", urlController.getCode)
 module.exports = router;
