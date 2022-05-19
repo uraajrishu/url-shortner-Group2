@@ -76,7 +76,7 @@ const urlShorten = async function (req, res) {
         if (urlValue) {
           await SET_ASYNC(`${req.body.longUrl}`, JSON.stringify(urlValue))
 
-          res.status(200).send({ status: true, data: urlValue });
+          return res.status(200).send({ status: true, data: urlValue });
         }
 
         if (!urlValue) {
@@ -100,7 +100,7 @@ const urlShorten = async function (req, res) {
 
     else {
 
-      res.status(400).send({ status: false, message: "This Longurl is invalid" })
+      return res.status(400).send({ status: false, message: "This Longurl is invalid" })
 
     }
 
