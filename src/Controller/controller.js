@@ -89,7 +89,7 @@ const fetchUrl = async function (req, res) {
 
   let cachedUrlData = await GET_ASYNC(`${code}`)
   let url = JSON.parse(cachedUrlData)
-  if (url){return res.status(301).redirect(url.longUrl)}
+  if (url){return res.status(302).redirect(url.longUrl)}
 
    else {let urlData = await urlModel.findOne({ urlCode: code });
    
