@@ -3,7 +3,6 @@ const validUrl = require('valid-url')
 const shortid = require('shortid')
 const redis = require("redis")
 const { promisify } = require("util");
-
 //==================================================================================================>>>
 const isValidRequestBody = function (requestBody){
   return Object.keys(requestBody).length > 0}
@@ -11,9 +10,7 @@ const isValidRequestBody = function (requestBody){
 const isValid = function (value){
   if (typeof value === 'undefined' || value === null)return false
   if (typeof value === 'string' && value.trim().length === 0)return false
-    return true}
-
-
+  return true}
 //-------------------------#Connecting to radis..--------------------------->>
 const redisClient = redis.createClient(
   11462,
@@ -30,7 +27,6 @@ const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
 
 //==================================#Post Api {Creat Shorten Url}========================================>>
 
-
 const urlShorten = async function (req, res) {
 
   try {let requestBody = req.body;
@@ -40,10 +36,9 @@ const urlShorten = async function (req, res) {
     return res.status(400).send({ status: false, message: "please fill request body" })}
 
     let longurl = req.body.longUrl
-
+    let regex= /^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})?$/;
     const baseUrl = 'http:localhost:3000'
-
-
+    
   if (!validUrl.isUri(baseUrl)){
 
       return res.status(400).send({ status: false, message: "invalid baseurl" })}
@@ -52,14 +47,14 @@ const urlShorten = async function (req, res) {
 
     return res.status(400).send({ status: false, message: "Url is required" })}
 
-  if (validUrl.isUri(longurl)) {
+    if (longurl.match(regex)){
 
       let cahcedUrlData = await GET_ASYNC(`${req.body.longUrl}`)
       let x = JSON.parse(cahcedUrlData)
 
   if (x) {
 
-    return res.status(200).send({ status: true, data: x ,msg:"This Url is coming from cashes"})}
+    return res.status(200).send({ status: true,message:"This Url is coming from cashes", data: x })}
 
     else{let urlValue = await urlModel.findOne({ longUrl: req.body.longUrl }).select({ urlCode: 1, longUrl: 1, shortUrl: 1, _id: 0 })
 
@@ -67,7 +62,7 @@ const urlShorten = async function (req, res) {
 
     await SET_ASYNC(`${req.body.longUrl}`, JSON.stringify(urlValue))
 
-    return res.status(200).send({ status: true, data: urlValue });}
+    return res.status(200).send({ status: true, message:"Shorturl for this url is already present",data: urlValue });}
 
   if (!urlValue){let code = shortid.generate()
     let urlCode = code.toLowerCase().trim();
@@ -77,7 +72,7 @@ const urlShorten = async function (req, res) {
     let urlCreate = await urlModel.create(details)
     let urlData = await urlModel.findOne({ longUrl: urlCreate.longUrl }).select({ urlCode: 1, longUrl: 1, shortUrl: 1, _id: 0 })
     await SET_ASYNC(`${req.body.longUrl}`, JSON.stringify(urlData))
-      return res.status(200).send({ status: true, data: urlData });}
+      return res.status(201).send({ status: true, data: urlData });}
     }
   }else{return res.status(400).send({ status: false, message: "This Longurl is invalid" })
 
@@ -85,7 +80,6 @@ const urlShorten = async function (req, res) {
 }catch(error) {res.status(500).send({ status: false, message: error.message })
   }
 }
-
 //=========================#Get Api{Get And Redirect}============================>>>
 
 const fetchUrl = async function (req, res) {
