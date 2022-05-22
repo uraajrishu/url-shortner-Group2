@@ -37,7 +37,7 @@ const urlShorten = async function (req, res) {
 
     let longurl = req.body.longUrl
     let regex= /^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})?$/;
-    const baseUrl = 'http:localhost:3000'
+    const baseUrl = 'http://localhost:3000'
     
   if (!validUrl.isUri(baseUrl)){
 
